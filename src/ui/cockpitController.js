@@ -87,6 +87,10 @@ export class CockpitViewController {
     this.entryFocusOrigin = null;
     this.callsign = document.getElementById('cockpit-callsign');
     this.speed = document.getElementById('cockpit-speed-value');
+    this.destinationDistance = document.getElementById(
+      'cockpit-distance-value',
+    );
+    this.destinationEta = document.getElementById('cockpit-eta-value');
     this.speedRim = document.getElementById('cockpit-speed-rim');
     this.speedRimValue = document.getElementById('cockpit-speed-rim-value');
     this.speedRimTicks = Array.from(

@@ -9,6 +9,7 @@ import {
   altitudeRulerTicks,
   bearingBetweenCoordinates,
   cockpitAltitudeDisplayFt,
+  cockpitDestinationEstimate,
   cockpitUiUpdateDue,
   compassDivisions,
   formatAltitudeRulerTick,
@@ -49,6 +50,17 @@ export function updateHud(
   forceContext = false,
 ) {
   this.lastAircraftInfo = info;
+  const destination = cockpitDestinationEstimate(info);
+  if (this.destinationDistance)
+    this.destinationDistance.textContent =
+      destination.distanceNm === null
+        ? '---'
+        : formatNumber(Math.round(destination.distanceNm));
+  if (this.destinationEta)
+    this.destinationEta.textContent =
+      destination.minutes === null
+        ? '---'
+        : formatNumber(Math.ceil(destination.minutes));
   const heading = normalizeHeading(this.heading ?? info.track ?? 0);
   if (this.callsign) {
     this.callsign.textContent =

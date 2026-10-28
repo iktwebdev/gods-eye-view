@@ -3070,5 +3070,10 @@
   "Your choice applies now, but could not be saved.": "Ваш выбор применён, но сохранить его не удалось.",
   "Voice replies appear here.": "Здесь появляются голосовые ответы.",
   "Preview is off.": "Предпросмотр отключён.",
-  "Automatic stop is unavailable for this voice connection.": "Автоматическая остановка недоступна для этого голосового подключения."
+  "Automatic stop is unavailable for this voice connection.": "Автоматическая остановка недоступна для этого голосового подключения.",
+  "DESTINATION DISTANCE": "ДО ПУНКТА НАЗНАЧЕНИЯ",
+  "EST. ETA": "РАСЧ. ПРИБЫТИЕ",
+  "NM": "ММ",
+  "MIN": "МИН",
+  "Direct distance at current ground speed": "Расстояние по прямой при текущей путевой скорости"
 }
