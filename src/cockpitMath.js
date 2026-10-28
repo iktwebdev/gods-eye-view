@@ -1,4 +1,24 @@
 export { resolveHudRailLayout } from './ui/panelRailGeometry.js';
+import { greatCircleKm } from './geoDistance.js';
+
+/** Direct distance and constant-ground-speed estimate, not a scheduled arrival. */
+export function cockpitDestinationEstimate(info) {
+  const distanceKm = info?.stale
+    ? Infinity
+    : greatCircleKm(
+        { lat: info?.latitude, lon: info?.longitude },
+        info?.route?.destination,
+      );
+  if (!Number.isFinite(distanceKm)) return { distanceNm: null, minutes: null };
+  const speed = info?.velocityMps;
+  return {
+    distanceNm: distanceKm / 1.852,
+    minutes:
+      info?.onGround !== true && Number.isFinite(speed) && speed > 0
+        ? (distanceKm * 1000) / speed / 60
+        : null,
+  };
+}
 
 /** Normalize a heading into the [0, 360) range. */
 export function normalizeHeading(value) {
