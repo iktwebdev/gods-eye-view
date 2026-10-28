@@ -665,6 +665,27 @@ html:not([lang='en']) .cockpit-roll-token.is-separator {
   line-height: 1;
   white-space: nowrap;
 }
+.cockpit-destination-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 48px);
+  margin-top: 10px;
+}
+.cockpit-destination-row > div {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  column-gap: 6px;
+}
+.cockpit-destination-row .cockpit-readout-label {
+  grid-column: 1 / -1;
+}
+.cockpit-destination-row strong {
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
 .cockpit-heading-value small {
   color: var(--cockpit-accent);
   font-size: 12px;

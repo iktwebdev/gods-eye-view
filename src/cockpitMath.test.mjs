@@ -7,6 +7,7 @@ import {
   bearingBetweenCoordinates,
   cockpitAnchorCorrectionStep,
   cockpitAltitudeDisplayFt,
+  cockpitDestinationEstimate,
   cockpitGroundSafeHeight,
   cockpitSurfaceWaitExpired,
   cockpitUiUpdateDue,
@@ -26,6 +27,42 @@ import {
   speedRulerStep,
   speedRulerTicks,
 } from './cockpitMath.js';
+
+test('destination estimate uses direct distance and ground speed, with unavailable guards', () => {
+  const info = {
+    latitude: 0,
+    longitude: 0,
+    velocityMps: 200,
+    route: { destination: { lat: 0, lon: 1 } },
+  };
+  const estimate = cockpitDestinationEstimate(info);
+  assert.ok(Math.abs(estimate.distanceNm - 60.04) < 0.01);
+  assert.ok(Math.abs(estimate.minutes - 9.266) < 0.01);
+  for (const velocityMps of [0, -1, null, NaN])
+    assert.equal(
+      cockpitDestinationEstimate({ ...info, velocityMps }).minutes,
+      null,
+    );
+  assert.equal(
+    cockpitDestinationEstimate({ ...info, onGround: true }).minutes,
+    null,
+  );
+  for (const invalid of [
+    {},
+    { ...info, stale: true },
+    { ...info, route: null },
+  ])
+    assert.deepEqual(cockpitDestinationEstimate(invalid), {
+      distanceNm: null,
+      minutes: null,
+    });
+  const acrossDateLine = cockpitDestinationEstimate({
+    ...info,
+    longitude: 179.5,
+    route: { destination: { lat: 0, lon: -179.5 } },
+  });
+  assert.ok(Math.abs(acrossDateLine.distanceNm - estimate.distanceNm) < 0.001);
+});
 
 test('cockpit presentation updates are throttled independently of camera frames', () => {
   assert.equal(cockpitUiUpdateDue(1000, 0, 100), true);
